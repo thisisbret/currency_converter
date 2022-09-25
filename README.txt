@@ -9,3 +9,5 @@ them from being shared with others
 Once installed, create a .env file, and include the text KEY="YOUR_KEY"
 
 This will allow the converter to pull in your personal key
+
+All supported symbols are included in symbols.json

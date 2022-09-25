@@ -23,6 +23,14 @@ if __name__ == '__main__':
         '-v', '--verbose', help='include more detailed output, defaults to amount only', action="store_true")
     args = parser.parse_args()
 
+    with open('symbols.json') as f:
+        symbols = json.load(f)
+
+    # verify that API supports the provided symbols, otherwise raise an error
+    if args.from_currency not in symbols.keys() or args.to_currency not in symbols.keys():
+        raise argparse.ArgumentTypeError(
+            "must pass a valid symbol, refer to symbols.json")
+
     # store input varaiables
     date = args.date if args.date else datetime.date.today().isoformat()  # YYYY-MM-DD
     from_ = args.from_currency
@@ -49,6 +57,6 @@ if __name__ == '__main__':
         print(f'date: {data["date"]}')
         print(f'rate: {data["info"]["rate"]}')
         print(f'amount: {data["query"]["amount"]}')
-        print(f'from: {data["query"]["from"]}')
-        print(f'to: {data["query"]["to"]}')
+        print(f'from: {from_} "{symbols[from_]}"')
+        print(f'to: {to_} "{symbols[to_]}"')
         print(f'result: {data["result"]}')
